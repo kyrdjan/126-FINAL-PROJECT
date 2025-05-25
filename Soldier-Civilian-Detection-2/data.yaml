@@ -1,0 +1,13 @@
+names:
+- Civilian
+- Soldier
+nc: 2
+roboflow:
+  license: CC BY 4.0
+  project: soldier-civilian-detection
+  url: https://universe.roboflow.com/camouflage/soldier-civilian-detection/dataset/2
+  version: 2
+  workspace: camouflage
+test: ../test/images
+train: Soldier-Civilian-Detection-2/train/images
+val: Soldier-Civilian-Detection-2/valid/images
