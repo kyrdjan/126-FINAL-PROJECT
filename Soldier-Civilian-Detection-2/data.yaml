@@ -1,6 +1,6 @@
 names:
-- Civilian
-- Soldier
+  - Civilian
+  - Soldier
 nc: 2
 roboflow:
   license: CC BY 4.0

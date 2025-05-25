@@ -1,5 +1,6 @@
-from roboflow import Roboflow
 import os
+
+from roboflow import Roboflow
 
 # Initialize Roboflow and download dataset
 rf = Roboflow(api_key="7wEwFHtz2YN3aOiTTk8X")  # private key
@@ -17,11 +18,10 @@ dataset_dir = dataset.location
 # )
 
 command = (
-    f'python train.py --img 768 --batch 8 --epochs 100 '
+    f"python train.py --img 768 --batch 8 --epochs 100 "
     f'--data "{dataset_dir}/data.yaml" --cache '
-    f'--hyp hyp.scratch-high.yaml --project runs/train --name evolve_run --exist-ok --evolve'
+    f"--hyp hyp.scratch-high.yaml --project runs/train --name evolve_run --exist-ok --evolve"
 )
 
 # Run training
 os.system(command)
- 

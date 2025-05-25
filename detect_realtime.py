@@ -1,15 +1,16 @@
+import os
 import tkinter as tk
 from tkinter import filedialog, messagebox
-from PIL import Image, ImageTk
+
 import cv2
 import torch
-import os
+from PIL import Image, ImageTk
 
 # Load YOLOv5 model
-model = torch.hub.load('ultralytics/yolov5', 'custom', path='runs/train/exp6/weights/best.pt', force_reload=True)
+model = torch.hub.load("ultralytics/yolov5", "custom", path="runs/train/exp6/weights/best.pt", force_reload=True)
 
 # Create output directory
-os.makedirs('outputs', exist_ok=True)
+os.makedirs("outputs", exist_ok=True)
 
 # Initialize GUI window
 window = tk.Tk()
@@ -29,9 +30,11 @@ progress_label = None
 # Buttons Frame for side-by-side layout
 buttons_frame = tk.Frame(window)
 
+
 def hide_all_buttons():
     for widget in buttons_frame.winfo_children():
         widget.pack_forget()
+
 
 def detect_image(path):
     global video_playing, progress_label
@@ -57,11 +60,12 @@ def detect_image(path):
     hide_all_buttons()  # Hide both play and stop
     buttons_frame.pack_forget()
 
+
 def detect_video(path):
     global processed_video_path, video_playing, progress_label
     video_playing = False
 
-    image_label.config(image='')
+    image_label.config(image="")
     image_label.image = None
 
     if progress_label:
@@ -81,8 +85,8 @@ def detect_video(path):
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 
-    processed_video_path = os.path.join('outputs', 'processed_' + os.path.basename(path))
-    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    processed_video_path = os.path.join("outputs", "processed_" + os.path.basename(path))
+    fourcc = cv2.VideoWriter_fourcc(*"mp4v")
     out = cv2.VideoWriter(processed_video_path, fourcc, fps, (width, height))
 
     progress_label = tk.Label(window, text="Processing video: 0%")
@@ -110,6 +114,7 @@ def detect_video(path):
     stop_button.pack(side=tk.LEFT, padx=10)
     buttons_frame.pack(pady=10)
 
+
 def play_video():
     global video_capture, video_playing
 
@@ -120,6 +125,7 @@ def play_video():
         video_capture = cv2.VideoCapture(processed_video_path)
         video_playing = True
         play_video_frame()
+
 
 def play_video_frame():
     global video_capture, video_playing
@@ -145,9 +151,11 @@ def play_video_frame():
 
     window.after(30, play_video_frame)
 
+
 def stop_video():
     global video_playing
     video_playing = False
+
 
 def upload_file():
     global progress_label
@@ -161,12 +169,15 @@ def upload_file():
         progress_label = None
 
     ext = file_path.lower()
-    if ext.endswith(('.jpg', '.jpeg', '.png')):
+    if ext.endswith((".jpg", ".jpeg", ".png")):
         detect_image(file_path)
-    elif ext.endswith(('.mp4', '.avi', '.mov', '.mkv')):
+    elif ext.endswith((".mp4", ".avi", ".mov", ".mkv")):
         detect_video(file_path)
     else:
-        messagebox.showerror("Unsupported File", "The selected file type is not supported. Please upload an image or video file.")
+        messagebox.showerror(
+            "Unsupported File", "The selected file type is not supported. Please upload an image or video file."
+        )
+
 
 # Upload button (always shown)
 upload_btn = tk.Button(window, text="Upload Image or Video", command=upload_file)
